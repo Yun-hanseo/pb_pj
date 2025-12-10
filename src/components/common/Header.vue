@@ -169,6 +169,55 @@ function logout() {
   transform: scale(1.07);
   box-shadow: 0 0 8px rgba(255, 80, 120, 0.5);
 }
+
+/* =============================== */
+/* 🔥 모바일 버전 (max-width: 600px) */
+/* =============================== */
+@media (max-width: 600px) {
+
+  .header {
+    padding: 10px 12px;
+    justify-content: space-between;
+  }
+
+  /* 로고 크기 축소 */
+  .logo {
+    font-size: 18px;
+  }
+
+  /* 메뉴(nav) 자동 축소 */
+  .nav {
+    gap: 12px;            /* 메뉴 간격 줄이기 */
+    margin-left: 10px;    /* 가운데 정렬 무너짐 방지 */
+  }
+
+  .nav a {
+    font-size: 13px;      /* 글자 크기 축소 */
+    padding-bottom: 2px;
+  }
+
+  /* 이메일 너무 길면 숨기기 */
+  .user-email {
+    max-width: 80px;      /* 영역 제한 */
+    white-space: nowrap;  /* 줄바꿈 금지 */
+    overflow: hidden;     /* 영역 넘치면 숨김 */
+    text-overflow: ellipsis; /* ... 처리 */
+    display: inline-block;
+    font-size: 12px;
+  }
+
+  .user-area {
+    gap: 6px;
+    margin-right: 12px;
+  }
+
+  .logout-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    margin-left: 10px;
+  }
+}
+
 </style>
 
 
