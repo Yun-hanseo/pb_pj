@@ -153,4 +153,56 @@ html, body {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 900px) {
+  .auth-card {
+    width: 420px;
+    padding: 60px;
+  }
+  .auth-title {
+    font-size: 34px;
+  }
+  .input-group input {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    width: 300px;
+    padding: 28px;
+  }
+  .auth-title {
+    font-size: 24px;
+  }
+  .input-group input {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+  .auth-btn {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-card {
+    width: 260px;
+    padding: 24px;
+  }
+
+  .auth-title {
+    font-size: 20px;
+  }
+
+  .auth-btn {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .input-group input {
+    font-size: 12px;
+  }
+}
+
 </style>
