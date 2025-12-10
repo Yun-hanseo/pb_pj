@@ -106,7 +106,7 @@ function logout() {
 .nav {
   display: flex;
   gap: 40px;
-  margin-left: 80px;
+  margin-right: 700px;
 }
 
 .nav a {
