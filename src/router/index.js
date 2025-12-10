@@ -41,7 +41,7 @@ const router = createRouter({
 
 //로그인 여부 확인 미들웨어
 router.beforeEach((to, from, next) => {
-    const isLoggedIn = localStorage.getItem("user");
+    const isLoggedIn = localStorage.getItem("currentUser"); // 변경됨 🔥
 
     if (!isLoggedIn && to.path !== "/signin") {
         next("/signin");
@@ -49,5 +49,6 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
+
 
 export default router;

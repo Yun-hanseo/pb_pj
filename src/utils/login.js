@@ -4,57 +4,75 @@ async function validateApiKey(apiKey) {
 
     try {
         const res = await fetch(url);
-        return res.ok; // 200이면 true, 401이면 false
+        return res.ok;  // 200 → true, 401 → false
     } catch (e) {
         return false;
     }
 }
 
-// 회원가입 로직
-export async function registerUser(email, apiKey) {
-    const apiKeyValid = await validateApiKey(apiKey);
-
-    if (!apiKeyValid) {
-        return { success: false, message: "유효하지 않은 TMDB API KEY 입니다." };
-    }
-
-    // 유효한 키라면 저장
-    const user = {
-        email: email,
-        apiKey: apiKey,
-    };
-
-    localStorage.setItem("user", JSON.stringify(user));
-
-    return { success: true, message: "회원가입 성공! 유효한 API KEY 입니다." };
+// ⭐ 사용자 정보 저장 방식
+// localStorage.userList = [ { email, apiKey } ]
+function loadUsers() {
+    return JSON.parse(localStorage.getItem("userList") || "[]");
 }
 
-// 로그인 로직
-export async function loginUser(email, apiKey) {
-    const stored = localStorage.getItem("user");
+function saveUsers(users) {
+    localStorage.setItem("userList", JSON.stringify(users));
+}
 
-    if (!stored) {
+// ⭐ 회원가입
+export async function registerUser(email, apiKey) {
+    const users = loadUsers();
+
+    // 이미 존재하는 이메일인지 확인
+    const exists = users.find(u => u.email === email);
+    if (exists) {
+        return { success: false, message: "이미 존재하는 이메일입니다." };
+    }
+
+    // API KEY 유효성 검사
+    const valid = await validateApiKey(apiKey);
+    if (!valid) {
+        return { success: false, message: "유효하지 않은 TMDB API KEY입니다." };
+    }
+
+    // 저장
+    users.push({ email, apiKey });
+    saveUsers(users);
+
+    return { success: true, message: "회원가입 성공!" };
+}
+
+// ⭐ 로그인
+export async function loginUser(email, apiKey) {
+    const users = loadUsers();
+
+    const user = users.find(u => u.email === email);
+    if (!user) {
         return { success: false, message: "등록된 계정이 없습니다." };
     }
 
-    const user = JSON.parse(stored);
-
-    // 이메일 일치 여부
-    if (user.email !== email) {
-        return { success: false, message: "이메일이 일치하지 않습니다." };
-    }
-
-    // API KEY 일치 여부
     if (user.apiKey !== apiKey) {
         return { success: false, message: "API KEY가 일치하지 않습니다." };
     }
 
-    // 실제 TMDB API로 검증
-    const isValid = await validateApiKey(apiKey);
-
-    if (!isValid) {
-        return { success: false, message: "유효하지 않은 TMDB API KEY 입니다." };
+    // API KEY 실제 검증
+    const valid = await validateApiKey(apiKey);
+    if (!valid) {
+        return { success: false, message: "유효하지 않은 TMDB API KEY입니다." };
     }
 
+    // ⭐ keep-login 저장
+    localStorage.setItem("currentUser", JSON.stringify(user));
+
     return { success: true, message: "로그인 성공!" };
+}
+
+// ⭐ 자동 로그인 / Keep Login 체크 함수
+export function getCurrentUser() {
+    return JSON.parse(localStorage.getItem("currentUser"));
+}
+
+export function logoutUser() {
+    localStorage.removeItem("currentUser");
 }
