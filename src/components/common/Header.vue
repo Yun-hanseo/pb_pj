@@ -90,32 +90,67 @@ function logout() {
 }
 
 .logo {
-  color:white;
+  color: white;
   font-size: 22px;
   font-weight: 700;
   cursor: pointer;
+  transition: 0.25s ease;
 }
+
+.logo:hover {
+  transform: scale(1.07);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+}
+
 
 .nav {
   display: flex;
-  gap: 20px;
-  margin-left:200px;
+  gap: 40px;
+  margin-left: 80px;
 }
 
 .nav a {
   color: #ddd;
   font-size: 15px;
   text-decoration: none;
-  transition: 0.2s;
+  position: relative;
+  padding-bottom: 3px;
+  transition: 0.25s ease;
 }
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #ff3b57;
+  transition: width 0.25s ease;
+}
+
+.nav a:hover {
+  color: white;
+  transform: scale(1.05);
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
 
 .user-area {
   display: flex;
   align-items: center;
-  color:white;
   gap: 12px;
-  margin-right:40px;
+  margin-right: 30px;
+  color: white;
 }
+
+.user-email {
+  color: white;
+}
+
 
 .logout-btn {
   background: #ff3b57;
@@ -125,7 +160,16 @@ function logout() {
   font-size: 14px;
   color: white;
   cursor: pointer;
-  margin-left:10px;
+  margin-left: 10px;
+  transition: 0.25s ease;
+}
+
+.logout-btn:hover {
+  background: #ff506d;
+  transform: scale(1.07);
+  box-shadow: 0 0 8px rgba(255, 80, 120, 0.5);
 }
 </style>
+
+
 
