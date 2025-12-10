@@ -35,8 +35,9 @@
 
 <script setup>
 import { ref ,onMounted} from "vue";
-import { toggleWishlist, isInWishlist } from "@/utils/wishlist.js";
+import { useWishlist } from "@/composables/useWishlist";
 
+const { toggle, isInWishlist } = useWishlist();
 const isLiked = ref(false);
 
 const props = defineProps({
@@ -63,7 +64,7 @@ onMounted(() => {
 
 // 추천 토글
 function toggleWish() {
-  toggleWishlist(props.movie);  // <-- 실제 로컬스토리지 반영
+  toggle(props.movie); // 새로운 composable 방식
   isWish.value = !isWish.value;
 }
 </script>

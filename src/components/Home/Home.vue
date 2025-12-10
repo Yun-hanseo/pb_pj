@@ -1,25 +1,28 @@
 <template>
   <div class="home-container">
 
-    <!-- 아래는 기존 섹션들 -->
+    <!-- 인기 영화 -->
     <MovieSection
         title="인기 영화"
         :movies="popularMovies"
         :isLoading="loadingPopular"
     />
 
+    <!-- 현재 상영작 -->
     <MovieSection
         title="현재 상영작"
         :movies="nowPlayingMovies"
         :isLoading="loadingNowPlaying"
     />
 
+    <!-- 평점 좋은 영화 -->
     <MovieSection
         title="평점 좋은 영화"
         :movies="topRatedMovies"
         :isLoading="loadingTopRated"
     />
 
+    <!-- 트렌딩 영화 -->
     <MovieSection
         title="트렌딩 영화"
         :movies="trendingMovies"
@@ -30,11 +33,21 @@
 </template>
 
 <script setup>
-import Header from "@/components/common/Header.vue";
 import { ref, onMounted } from "vue";
 import MovieSection from "./moviesection.vue";
-import { getPopular, getNowPlaying, getTopRated, getTrending } from "@/utils/movie.js";
 
+// 🔥 axios Composable 가져오기
+import { useTMDB } from "@/composables/useTMDB";
+
+// 🔥 필요한 API만 구조분해
+const {
+  getPopular,
+  getNowPlaying,
+  getTopRated,
+  getTrending
+} = useTMDB();
+
+// 상태값들
 const popularMovies = ref([]);
 const nowPlayingMovies = ref([]);
 const topRatedMovies = ref([]);
@@ -45,29 +58,33 @@ const loadingNowPlaying = ref(true);
 const loadingTopRated = ref(true);
 const loadingTrending = ref(true);
 
-
+// 🔥 페이지 진입 시 데이터 가져오기
 onMounted(async () => {
+
   // 인기 영화
   loadingPopular.value = true;
-  popularMovies.value = await getPopular();
+  const popularData = await getPopular();
+  popularMovies.value = popularData.results ?? [];
   loadingPopular.value = false;
 
   // 현재 상영작
   loadingNowPlaying.value = true;
-  nowPlayingMovies.value = await getNowPlaying();
+  const nowPlayingData = await getNowPlaying();
+  nowPlayingMovies.value = nowPlayingData.results ?? [];
   loadingNowPlaying.value = false;
 
   // 평점 좋은 영화
   loadingTopRated.value = true;
-  topRatedMovies.value = await getTopRated();
+  const topRatedData = await getTopRated();
+  topRatedMovies.value = topRatedData.results ?? [];
   loadingTopRated.value = false;
 
   // 트렌딩 영화
   loadingTrending.value = true;
-  trendingMovies.value = await getTrending();
+  const trendingData = await getTrending();
+  trendingMovies.value = trendingData.results ?? [];
   loadingTrending.value = false;
 });
-
 </script>
 
 <style scoped>
@@ -85,6 +102,6 @@ onMounted(async () => {
     gap: 30px;
   }
 }
-
 </style>
+
 
