@@ -1,5 +1,23 @@
-# Vue 3 + TypeScript + Vite
+# WSD-Assignment-02 - Vue.js Web Application
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+본 프로젝트는 Vue.js와 Vite를 기반으로 제작된 웹 애플리케이션입니다.  
+프로젝트 실행을 위해 필요한 npm 명령어를 아래에 정리합니다.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+---
+
+## 📦 설치 및 실행 방법 (필수) (npm install)
+
+### ▶ 1. 패키지 설치
+프로젝트 실행에 필요한 의존성 패키지를 설치합니다.
+
+
+---
+
+### ▶ 2. 개발 서버 실행 (npm run dev)
+개발 환경에서 웹 애플리케이션을 실행합니다.
+
+
+---
+
+### ▶ 4. 빌드 결과 미리보기 (선택) (npm run build)
+로컬 환경에서 빌드된 파일을 미리 확인할 수 있습니다.
