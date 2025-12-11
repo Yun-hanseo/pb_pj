@@ -1,5 +1,13 @@
-pages: write
-id-token: write
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  pages: write
+  id-token: write
 
 concurrency:
   group: "pages"
