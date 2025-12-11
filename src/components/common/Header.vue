@@ -187,8 +187,9 @@ function logout() {
 
   /* 메뉴(nav) 자동 축소 */
   .nav {
-    gap: 12px;            /* 메뉴 간격 줄이기 */
-    margin-left: 10px;    /* 가운데 정렬 무너짐 방지 */
+    gap: 12px;
+    margin-right: 0 !important;   /* 🔥🔥 모바일에서 nav 오른쪽 여백 강제로 제거 */
+    margin-left: 10px;
   }
 
   .nav a {
@@ -198,23 +199,64 @@ function logout() {
 
   /* 이메일 너무 길면 숨기기 */
   .user-email {
-    max-width: 80px;      /* 영역 제한 */
-    white-space: nowrap;  /* 줄바꿈 금지 */
-    overflow: hidden;     /* 영역 넘치면 숨김 */
-    text-overflow: ellipsis; /* ... 처리 */
-    display: inline-block;
-    font-size: 12px;
+    max-width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 11px;
   }
 
   .user-area {
     gap: 6px;
-    margin-right: 12px;
+    margin-right: 10px !important; /* 🔥 오른쪽 여백 줄이기 */
   }
 
   .logout-btn {
     padding: 4px 8px;
     font-size: 12px;
-    margin-left: 10px;
+    margin-left: 4px; /* 🔥 더 안쪽으로 */
+  }
+}
+
+/* =============================== */
+/* 📱 태블릿 / 작은 화면 대응 (600px~1024px) */
+/* =============================== */
+@media (max-width: 1024px) {
+
+  .header {
+    padding: 10px 16px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav {
+    gap: 20px;
+    margin-right: 0 !important; /* 🔥 오른쪽 공간 없애서 중앙 정렬 */
+  }
+
+  .nav a {
+    font-size: 14px;
+  }
+
+  .user-area {
+    display:flex;
+    gap: 8px;
+    margin-right: 12px !important;
+  }
+
+  .user-email {
+    max-width: 120px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .logout-btn {
+    padding: 5px 10px;
+    font-size: 12px;
   }
 }
 
