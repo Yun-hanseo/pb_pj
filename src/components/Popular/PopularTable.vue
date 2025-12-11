@@ -21,15 +21,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import PopularItem from "./PopularItem.vue";
-import { getPopularPage } from "@/utils/movie.js";
+import { useTMDB } from "@/composables/useTMDB";   // 🔥 추가
+
+const { getPopular } = useTMDB();                 // 🔥 추가
 
 const page = ref(1);
 const totalPages = 10;
 const movies = ref([]);
 
 async function loadMovies() {
-  movies.value = await getPopularPage(page.value);
+  const data = await getPopular(page.value);
+  movies.value = Array.isArray(data.results) ? data.results : [];
 }
+
 
 function nextPage() {
   if (page.value < totalPages) {
@@ -49,8 +53,6 @@ onMounted(() => {
   loadMovies();
 });
 </script>
-
-
 
 
 <style scoped>
@@ -97,42 +99,4 @@ onMounted(() => {
   color: white;
   font-size: 16px;
 }
-
-/* 📱 모바일에서는 카드 크기 자체 축소 + 2열 강제 */
-@media (max-width: 480px) {
-  .movie-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-  }
-
-  .item-card {
-    width: 100% !important;
-    padding: 6px !important;
-    border-radius: 10px !important;
-  }
-
-  .poster-img {
-    height: 160px !important;   /* 🔥 기존 250px → 160px */
-    border-radius: 8px !important;
-  }
-
-  .title {
-    font-size: 13px !important;
-  }
-
-  .info {
-    font-size: 11px !important;
-    gap: 6px !important;
-  }
-
-  .overview {
-    font-size: 11px !important;
-    height: 32px !important;
-  }
-
-  .heart-btn {
-    font-size: 20px !important;
-  }
-}
-
 </style>

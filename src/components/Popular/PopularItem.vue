@@ -34,40 +34,40 @@
 </template>
 
 <script setup>
-import { ref ,onMounted} from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useWishlist } from "@/composables/useWishlist";
 
-const { toggle, isInWishlist } = useWishlist();
-const isLiked = ref(false);
-
 const props = defineProps({
-  movie: Object
+  movie: {
+    type: Object,
+    required: true
+  }
 });
 
-const emits = defineEmits(["select"]);  // 부모에서 필요시 클릭 이벤트 받을 수 있음
+const { toggle, isInWishlist } = useWishlist();
 
-// 포스터 URL
-const imgUrl = props.movie.poster_path
-    ? `https://image.tmdb.org/t/p/w500${props.movie.poster_path}`
-    : "https://via.placeholder.com/300x450";
+// 🔥 props가 준비된 후 계산되도록 computed 사용
+const imgUrl = computed(() =>
+    props.movie?.poster_path
+        ? `https://image.tmdb.org/t/p/w500${props.movie.poster_path}`
+        : "https://via.placeholder.com/300x450"
+);
 
-// 현재 추천 여부
 const isWish = ref(false);
 
-function toggleLike() {
-  isLiked.value = !isLiked.value;
-}
-
 onMounted(() => {
-  isWish.value = isInWishlist(props.movie.id);
+  if (props.movie) {
+    isWish.value = isInWishlist(props.movie.id);
+  }
 });
 
-// 추천 토글
 function toggleWish() {
-  toggle(props.movie); // 새로운 composable 방식
+  toggle(props.movie);
   isWish.value = !isWish.value;
 }
+
 </script>
+
 
 <style scoped>
 .item-card {

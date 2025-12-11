@@ -19,7 +19,9 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import PopularItem from "./PopularItem.vue";
 import PopularTopButton from "./PopularTopButton.vue";
-import { getPopularPage } from "@/utils/movie.js";
+import { useTMDB } from "@/composables/useTMDB";
+
+const { getPopular } = useTMDB();
 
 const movies = ref([]);
 const page = ref(1);
@@ -27,7 +29,7 @@ const maxPage = 20;
 const isLoading = ref(false);
 const showTop = ref(false);
 
-// 최초 로드 + 스크롤 이벤트 등록
+// 최초 로드
 onMounted(() => {
   loadMore();
   window.addEventListener("scroll", handleScroll);
@@ -37,21 +39,16 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-// 🔥 무한 루프 스크롤 핵심 로직
+// 🔥 무한 스크롤 로딩
 async function loadMore() {
   if (isLoading.value) return;
-
   isLoading.value = true;
 
-  // TMDB는 20페이지까지만 지원 → 넘어가면 다시 반복
-  if (page.value > maxPage) {
-    page.value = 1;   // 🔥 여기서 루프 시작됨
-  }
+  if (page.value > maxPage) page.value = 1;
 
-  const data = await getPopularPage(page.value);
-
-  if (Array.isArray(data)) {
-    movies.value.push(...data);  // 기존 목록 아래에 이어붙임
+  const data = await getPopular(page.value);
+  if (Array.isArray(data.results)) {
+    movies.value.push(...data.results);
   }
 
   page.value++;
@@ -63,13 +60,11 @@ function handleScroll() {
   const scrollEnd =
       window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 300;
 
-  if (scrollEnd) {
-    loadMore();
-  }
-
+  if (scrollEnd) loadMore();
   showTop.value = window.scrollY > 400;
 }
 </script>
+
 
 <style scoped>
 .infinite-container {
