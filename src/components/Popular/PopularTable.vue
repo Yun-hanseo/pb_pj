@@ -21,15 +21,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import PopularItem from "./PopularItem.vue";
-import { getPopularPage } from "@/utils/movie.js";
+import { useTMDB } from "@/composables/useTMDB";   // 🔥 추가
+
+const { getPopular } = useTMDB();                 // 🔥 추가
 
 const page = ref(1);
 const totalPages = 10;
 const movies = ref([]);
 
 async function loadMovies() {
-  movies.value = await getPopularPage(page.value);
+  const data = await getPopular(page.value);
+  movies.value = Array.isArray(data.results) ? data.results : [];
 }
+
 
 function nextPage() {
   if (page.value < totalPages) {
@@ -49,6 +53,7 @@ onMounted(() => {
   loadMovies();
 });
 </script>
+
 
 <style scoped>
 .table-container {
